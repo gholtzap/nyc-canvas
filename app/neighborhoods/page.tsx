@@ -88,10 +88,10 @@ export default function NeighborhoodsPage() {
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{background: 'var(--terracotta-500)', animationDelay: '0s'}}></div>
-          <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{background: 'var(--amber-500)', animationDelay: '0.2s'}}></div>
-          <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{background: 'var(--sage-500)', animationDelay: '0.4s'}}></div>
+        <div className="flex items-center gap-3">
+          <div className="w-3 h-3 rounded-full animate-pulse" style={{background: 'var(--amber-500)', animationDelay: '0s', boxShadow: '0 0 12px var(--amber-500)'}}></div>
+          <div className="w-3 h-3 rounded-full animate-pulse" style={{background: 'var(--teal-400)', animationDelay: '0.2s', boxShadow: '0 0 12px var(--teal-400)'}}></div>
+          <div className="w-3 h-3 rounded-full animate-pulse" style={{background: 'var(--coral-500)', animationDelay: '0.4s', boxShadow: '0 0 12px var(--coral-500)'}}></div>
         </div>
       </div>
     );
@@ -103,48 +103,48 @@ export default function NeighborhoodsPage() {
     <div className="min-h-screen relative">
       <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10">
         <div className="mb-10 animate-slide-up">
-          <h1 className="text-4xl sm:text-6xl font-display mb-3 tracking-tight" style={{color: 'var(--charcoal)'}}>
+          <h1 className="text-4xl sm:text-6xl font-display mb-3 tracking-tight" style={{color: 'var(--cream-50)', textShadow: '0 0 30px rgba(251, 191, 36, 0.2)'}}>
             NYC Neighborhoods
           </h1>
-          <p className="text-base" style={{color: 'var(--gray-600)'}}>Discover and track your journey through the city</p>
+          <p className="text-base" style={{color: 'var(--gray-400)'}}>Discover and track your journey through the city</p>
         </div>
 
         <div className="card p-6 sm:p-8 mb-8 animate-slide-up" style={{animationDelay: '0.1s'}}>
-          <h2 className="text-xl font-display mb-6 tracking-tight" style={{color: 'var(--charcoal)'}}>Your Progress</h2>
+          <h2 className="text-xl font-display mb-6 tracking-tight" style={{color: 'var(--cream-50)'}}>Your Progress</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="p-5 rounded-xl" style={{background: 'var(--cream-100)', border: '1.5px solid var(--cream-200)'}}>
+            <div className="p-5 rounded-xl" style={{background: 'rgba(10, 14, 26, 0.5)', border: '1.5px solid var(--midnight-600)'}}>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-display" style={{color: 'var(--terracotta-500)'}}>
+                <span className="text-5xl font-display" style={{color: 'var(--amber-400)', textShadow: '0 0 20px rgba(251, 191, 36, 0.3)'}}>
                   {stats.explored}
                 </span>
-                <span className="text-2xl font-semibold" style={{color: 'var(--gray-400)'}}>/ {stats.total}</span>
+                <span className="text-2xl font-semibold" style={{color: 'var(--gray-500)'}}>/ {stats.total}</span>
               </div>
-              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-600)'}}>Neighborhoods Explored</p>
+              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-400)'}}>Neighborhoods Explored</p>
             </div>
 
-            <div className="p-5 rounded-xl" style={{background: 'var(--cream-100)', border: '1.5px solid var(--cream-200)'}}>
+            <div className="p-5 rounded-xl" style={{background: 'rgba(10, 14, 26, 0.5)', border: '1.5px solid var(--midnight-600)'}}>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-display" style={{color: 'var(--sage-600)'}}>
+                <span className="text-5xl font-display" style={{color: 'var(--teal-400)', textShadow: '0 0 20px rgba(45, 212, 191, 0.3)'}}>
                   {stats.total > 0 ? Math.round((stats.explored / stats.total) * 100) : 0}%
                 </span>
               </div>
-              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-600)'}}>Complete</p>
+              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-400)'}}>Complete</p>
             </div>
 
-            <div className="p-5 rounded-xl" style={{background: 'var(--cream-100)', border: '1.5px solid var(--cream-200)'}}>
+            <div className="p-5 rounded-xl" style={{background: 'rgba(10, 14, 26, 0.5)', border: '1.5px solid var(--midnight-600)'}}>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-display" style={{color: 'var(--amber-600)'}}>
+                <span className="text-5xl font-display" style={{color: 'var(--coral-400)', textShadow: '0 0 20px rgba(255, 107, 107, 0.3)'}}>
                   {stats.unexplored}
                 </span>
               </div>
-              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-600)'}}>Left to Explore</p>
+              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-400)'}}>Left to Explore</p>
             </div>
           </div>
         </div>
 
         <div className="flex gap-4 mb-8 flex-wrap animate-slide-up" style={{animationDelay: '0.2s'}}>
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>Borough</label>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--cream-100)'}}>Borough</label>
             <select
               value={boroughFilter}
               onChange={(e) => setBoroughFilter(e.target.value)}
@@ -160,7 +160,7 @@ export default function NeighborhoodsPage() {
           </div>
 
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>Status</label>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--cream-100)'}}>Status</label>
             <select
               value={exploredFilter}
               onChange={(e) => setExploredFilter(e.target.value)}
@@ -184,8 +184,9 @@ export default function NeighborhoodsPage() {
                 style={{
                   animationDelay: `${0.3 + idx * 0.03}s`,
                   ...(isExplored ? {
-                    background: 'rgba(212, 121, 91, 0.05)',
-                    borderColor: 'var(--terracotta-400)'
+                    background: 'rgba(251, 191, 36, 0.05)',
+                    borderColor: 'rgba(251, 191, 36, 0.3)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3), 0 0 15px rgba(251, 191, 36, 0.1)'
                   } : {})
                 }}
               >
@@ -194,14 +195,14 @@ export default function NeighborhoodsPage() {
                     <Link
                       href={`/neighborhoods/${neighborhood.slug}`}
                       className="text-base font-display hover:opacity-70 transition-opacity tracking-tight"
-                      style={{color: 'var(--charcoal)'}}
+                      style={{color: 'var(--cream-50)'}}
                     >
                       {neighborhood.name}
                     </Link>
                     <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs font-medium" style={{color: 'var(--gray-600)'}}>{neighborhood.borough}</span>
+                      <span className="text-xs font-medium" style={{color: 'var(--gray-400)'}}>{neighborhood.borough}</span>
                       {isExplored && (
-                        <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-md" style={{background: 'rgba(200, 90, 63, 0.1)', color: 'var(--terracotta-600)', border: '1px solid var(--terracotta-400)'}}>
+                        <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-md" style={{background: 'rgba(251, 191, 36, 0.15)', color: 'var(--amber-400)', border: '1px solid var(--amber-500)'}}>
                           ✓ Explored
                         </span>
                       )}
@@ -211,7 +212,7 @@ export default function NeighborhoodsPage() {
 
                 <div className="mb-4 space-y-1">
                   {neighborhood.userNeighborhood?.exploredAt && (
-                    <p className="text-xs" style={{color: 'var(--gray-400)'}}>
+                    <p className="text-xs" style={{color: 'var(--gray-500)'}}>
                       {new Date(neighborhood.userNeighborhood.exploredAt).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
@@ -221,7 +222,7 @@ export default function NeighborhoodsPage() {
                   )}
 
                   {(neighborhood.userNeighborhood?.photos?.length ?? 0) > 0 && (
-                    <p className="text-xs" style={{color: 'var(--gray-400)'}}>
+                    <p className="text-xs" style={{color: 'var(--gray-500)'}}>
                       {neighborhood.userNeighborhood?.photos?.length} photo{(neighborhood.userNeighborhood?.photos?.length ?? 0) !== 1 ? 's' : ''}
                     </p>
                   )}
@@ -232,12 +233,12 @@ export default function NeighborhoodsPage() {
                   className="w-full px-4 py-2.5 text-sm font-semibold tracking-normal transition-all rounded-lg"
                   style={isExplored ? {
                     background: 'transparent',
-                    color: 'var(--terracotta-600)',
-                    border: '2px solid var(--terracotta-500)'
+                    color: 'var(--amber-400)',
+                    border: '2px solid var(--amber-500)'
                   } : {
-                    background: 'var(--sage-500)',
-                    color: 'white',
-                    boxShadow: '0 2px 8px rgba(82, 107, 90, 0.2)'
+                    background: 'linear-gradient(135deg, var(--teal-500), var(--teal-600))',
+                    color: 'var(--midnight-900)',
+                    boxShadow: '0 0 15px rgba(45, 212, 191, 0.2)'
                   }}
                 >
                   {isExplored ? 'Mark Unexplored' : 'Mark Explored'}
@@ -250,14 +251,13 @@ export default function NeighborhoodsPage() {
         {neighborhoods.length === 0 && (
           <div className="text-center py-16 card p-12">
             <div className="text-7xl mb-4 opacity-30">🔍</div>
-            <p className="text-base mb-6" style={{color: 'var(--gray-600)'}}>No neighborhoods found with the selected filters</p>
+            <p className="text-base mb-6" style={{color: 'var(--gray-400)'}}>No neighborhoods found with the selected filters</p>
             <button
               onClick={() => {
                 setBoroughFilter('');
                 setExploredFilter('');
               }}
-              className="px-6 py-3 font-semibold text-sm rounded-lg text-white transition-all"
-              style={{background: 'var(--terracotta-500)', boxShadow: '0 2px 8px rgba(200, 90, 63, 0.2)'}}
+              className="btn-primary"
             >
               Clear filters
             </button>

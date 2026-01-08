@@ -55,25 +55,25 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       <div className="card p-8 sm:p-10 w-full max-w-md relative z-10 animate-fade-in">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{background: 'linear-gradient(135deg, var(--terracotta-500), var(--amber-500))', boxShadow: '0 4px 12px rgba(200, 90, 63, 0.2)'}}>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 animate-glow" style={{background: 'linear-gradient(135deg, var(--amber-500), var(--amber-600))', boxShadow: '0 0 25px rgba(251, 191, 36, 0.4)'}}>
             <span className="text-3xl">🗽</span>
           </div>
-          <h1 className="text-3xl font-display mb-2 tracking-tight" style={{color: 'var(--charcoal)'}}>
+          <h1 className="text-3xl font-display mb-2 tracking-tight" style={{color: 'var(--cream-50)'}}>
             Start Your Journey
           </h1>
-          <p className="text-sm" style={{color: 'var(--gray-600)'}}>Create an account to explore NYC neighborhoods</p>
+          <p className="text-sm" style={{color: 'var(--gray-400)'}}>Create an account to explore NYC neighborhoods</p>
         </div>
 
         {error && (
-          <div className="px-4 py-3 mb-6 text-sm rounded-lg" style={{background: 'rgba(220, 38, 38, 0.08)', border: '2px solid rgba(220, 38, 38, 0.3)', color: '#B91C1C'}}>
+          <div className="px-4 py-3 mb-6 text-sm rounded-lg" style={{background: 'rgba(255, 107, 107, 0.1)', border: '2px solid rgba(255, 107, 107, 0.4)', color: 'var(--coral-400)'}}>
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>
-              Name <span style={{color: 'var(--gray-400)', fontWeight: 400}}>(optional)</span>
+            <label htmlFor="name" className="block text-sm font-semibold mb-2" style={{color: 'var(--cream-100)'}}>
+              Name <span style={{color: 'var(--gray-500)', fontWeight: 400}}>(optional)</span>
             </label>
             <input
               type="text"
@@ -86,7 +86,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>
+            <label htmlFor="email" className="block text-sm font-semibold mb-2" style={{color: 'var(--cream-100)'}}>
               Email Address
             </label>
             <input
@@ -101,7 +101,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>
+            <label htmlFor="password" className="block text-sm font-semibold mb-2" style={{color: 'var(--cream-100)'}}>
               Password
             </label>
             <input
@@ -114,7 +114,7 @@ export default function RegisterPage() {
               placeholder="At least 6 characters"
               className="input-field"
             />
-            <p className="text-xs mt-1" style={{color: 'var(--gray-400)'}}>Minimum 6 characters</p>
+            <p className="text-xs mt-1" style={{color: 'var(--gray-500)'}}>Minimum 6 characters</p>
           </div>
 
           <button
@@ -128,18 +128,18 @@ export default function RegisterPage() {
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t" style={{borderColor: 'var(--cream-200)'}}></div>
+            <div className="w-full border-t" style={{borderColor: 'var(--midnight-600)'}}></div>
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="px-2 text-sm" style={{background: 'white', color: 'var(--gray-400)'}}>or</span>
+            <span className="px-2 text-sm" style={{background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(17, 24, 39, 0.9))', color: 'var(--gray-400)'}}>or</span>
           </div>
         </div>
 
         <button
           onClick={handleGoogleSignIn}
           type="button"
-          className="w-full bg-white px-6 py-3 font-semibold transition-all duration-200 flex items-center justify-center gap-3 rounded-lg"
-          style={{border: '2px solid var(--cream-200)', color: 'var(--charcoal)'}}
+          className="w-full px-6 py-3 font-semibold transition-all duration-200 flex items-center justify-center gap-3 rounded-lg hover:bg-opacity-10"
+          style={{border: '2px solid var(--midnight-600)', color: 'var(--cream-100)', background: 'rgba(10, 14, 26, 0.4)'}}
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -151,9 +151,9 @@ export default function RegisterPage() {
         </button>
 
         <div className="mt-6 text-center">
-          <p className="text-sm" style={{color: 'var(--gray-600)'}}>
+          <p className="text-sm" style={{color: 'var(--gray-400)'}}>
             Already have an account?{' '}
-            <Link href="/login" className="font-semibold hover:opacity-70 transition-opacity" style={{color: 'var(--terracotta-500)'}}>
+            <Link href="/login" className="font-semibold hover:opacity-70 transition-opacity" style={{color: 'var(--amber-400)'}}>
               Sign In
             </Link>
           </p>
