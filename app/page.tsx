@@ -43,7 +43,7 @@ export default function Home() {
         </h1>
 
         <p className="text-lg md:text-xl text-slate-300 mb-4 max-w-2xl mx-auto font-medium animate-slide-up" style={{animationDelay: '0.1s'}}>
-          // TRACK YOUR JOURNEY THROUGH ALL 173 NEIGHBORHOODS
+          {`// TRACK YOUR JOURNEY THROUGH ALL 173 NEIGHBORHOODS`}
         </p>
 
         <p className="text-sm md:text-base text-slate-400 mb-12 max-w-xl mx-auto animate-slide-up" style={{animationDelay: '0.2s'}}>

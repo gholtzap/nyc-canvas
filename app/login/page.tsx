@@ -51,7 +51,7 @@ export default function LoginPage() {
           <h1 className="text-3xl font-display mb-2 text-lime-400 tracking-tight">
             WELCOME BACK
           </h1>
-          <p className="text-slate-400 text-sm font-mono">// Sign in to continue your NYC journey</p>
+          <p className="text-slate-400 text-sm font-mono">{`// Sign in to continue your NYC journey`}</p>
         </div>
 
         {error && (
@@ -126,7 +126,7 @@ export default function LoginPage() {
 
         <div className="mt-6 text-center">
           <p className="text-xs text-slate-400 font-mono">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/register" className="text-orange-400 hover:text-orange-300 font-bold transition-colors">
               Get Started
             </Link>

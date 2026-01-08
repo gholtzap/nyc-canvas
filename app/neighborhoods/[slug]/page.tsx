@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -48,13 +48,7 @@ export default function NeighborhoodDetailPage() {
     }
   }, [session, authLoading, router]);
 
-  useEffect(() => {
-    if (session && slug) {
-      fetchNeighborhood();
-    }
-  }, [session, slug]);
-
-  const fetchNeighborhood = async () => {
+  const fetchNeighborhood = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/neighborhoods/${slug}`);
@@ -68,7 +62,13 @@ export default function NeighborhoodDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [slug]);
+
+  useEffect(() => {
+    if (session && slug) {
+      fetchNeighborhood();
+    }
+  }, [session, slug, fetchNeighborhood]);
 
   const toggleExplored = async () => {
     if (!neighborhood) return;
@@ -167,7 +167,7 @@ export default function NeighborhoodDetailPage() {
   if (!neighborhood) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p className="text-xl font-mono text-slate-400">// Neighborhood not found</p>
+        <p className="text-xl font-mono text-slate-400">{`// Neighborhood not found`}</p>
         <Link href="/neighborhoods" className="text-lime-400 hover:text-lime-300 font-bold transition-colors">
           ← Back to Neighborhoods
         </Link>
@@ -246,7 +246,7 @@ export default function NeighborhoodDetailPage() {
 
         {photos.length === 0 ? (
           <p className="text-slate-500 text-center py-12 font-mono text-sm">
-            // No photos yet. Upload your first photo!
+            {`// No photos yet. Upload your first photo!`}
           </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

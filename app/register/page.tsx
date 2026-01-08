@@ -61,7 +61,7 @@ export default function RegisterPage() {
           <h1 className="text-3xl font-display mb-2 text-lime-400 tracking-tight">
             START YOUR JOURNEY
           </h1>
-          <p className="text-slate-400 text-sm font-mono">// Create an account to explore NYC neighborhoods</p>
+          <p className="text-slate-400 text-sm font-mono">{`// Create an account to explore NYC neighborhoods`}</p>
         </div>
 
         {error && (
@@ -114,7 +114,7 @@ export default function RegisterPage() {
               placeholder="At least 6 characters"
               className="input-field"
             />
-            <p className="text-xs text-slate-600 mt-1 font-mono">// Minimum 6 characters</p>
+            <p className="text-xs text-slate-600 mt-1 font-mono">{`// Minimum 6 characters`}</p>
           </div>
 
           <button

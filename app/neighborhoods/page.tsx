@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -43,13 +43,7 @@ export default function NeighborhoodsPage() {
     }
   }, [session, authLoading, router]);
 
-  useEffect(() => {
-    if (session) {
-      fetchNeighborhoods();
-    }
-  }, [session, boroughFilter, exploredFilter]);
-
-  const fetchNeighborhoods = async () => {
+  const fetchNeighborhoods = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -67,7 +61,13 @@ export default function NeighborhoodsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [boroughFilter, exploredFilter]);
+
+  useEffect(() => {
+    if (session) {
+      fetchNeighborhoods();
+    }
+  }, [session, fetchNeighborhoods]);
 
   const toggleExplored = async (slug: string, currentExplored: boolean) => {
     try {
@@ -106,7 +106,7 @@ export default function NeighborhoodsPage() {
           <h1 className="text-4xl sm:text-6xl font-display mb-3 text-lime-400 tracking-tight drop-shadow-[0_0_20px_rgba(203,245,66,0.3)]">
             NYC NEIGHBORHOODS
           </h1>
-          <p className="text-slate-400 text-base font-mono">// Discover and track your journey through the city</p>
+          <p className="text-slate-400 text-base font-mono">{`// Discover and track your journey through the city`}</p>
         </div>
 
         <div className="card p-6 sm:p-8 mb-8 bg-slate-800/70 border-lime-400/30 animate-slide-up" style={{animationDelay: '0.1s'}}>
@@ -243,7 +243,7 @@ export default function NeighborhoodsPage() {
         {neighborhoods.length === 0 && (
           <div className="text-center py-16 card p-12">
             <div className="text-7xl mb-4 opacity-30">🔍</div>
-            <p className="text-slate-400 text-base font-mono mb-6">// No neighborhoods found with the selected filters</p>
+            <p className="text-slate-400 text-base font-mono mb-6">{`// No neighborhoods found with the selected filters`}</p>
             <button
               onClick={() => {
                 setBoroughFilter('');
