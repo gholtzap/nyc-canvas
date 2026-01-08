@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
+import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
@@ -10,9 +10,9 @@ export async function POST(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const currentUser = await getCurrentUser();
+    const session = await auth();
 
-    if (!currentUser) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -35,7 +35,7 @@ export async function POST(
     let userNeighborhood = await prisma.userNeighborhood.findUnique({
       where: {
         userId_neighborhoodId: {
-          userId: currentUser.userId,
+          userId: session.user.id,
           neighborhoodId: neighborhood.id,
         },
       },
@@ -44,7 +44,7 @@ export async function POST(
     if (!userNeighborhood) {
       userNeighborhood = await prisma.userNeighborhood.create({
         data: {
-          userId: currentUser.userId,
+          userId: session.user.id,
           neighborhoodId: neighborhood.id,
           explored: false,
         },
@@ -98,9 +98,9 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const currentUser = await getCurrentUser();
+    const session = await auth();
 
-    if (!currentUser) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -131,7 +131,7 @@ export async function DELETE(
       );
     }
 
-    if (photo.userNeighborhood.userId !== currentUser.userId) {
+    if (photo.userNeighborhood.userId !== session.user.id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 403 }

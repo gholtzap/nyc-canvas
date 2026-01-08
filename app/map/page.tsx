@@ -1,30 +1,31 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import MapContainerWrapper from '@/components/map/MapContainerWrapper';
 import NeighborhoodPanel from '@/components/map/NeighborhoodPanel';
 import type { MapNeighborhood } from '@/types/map';
 
 export default function MapPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { data: session, status } = useSession();
+  const authLoading = status === 'loading';
   const router = useRouter();
   const [neighborhoods, setNeighborhoods] = useState<MapNeighborhood[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (!authLoading && !session) {
       router.push('/login');
     }
-  }, [user, authLoading, router]);
+  }, [session, authLoading, router]);
 
   useEffect(() => {
-    if (user) {
+    if (session) {
       fetchNeighborhoods();
     }
-  }, [user]);
+  }, [session]);
 
   const fetchNeighborhoods = async () => {
     try {

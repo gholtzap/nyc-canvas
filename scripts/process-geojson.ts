@@ -286,7 +286,7 @@ function processGeoJSON() {
         },
       };
     })
-    .filter((f): f is GeoJSONFeature => f !== null);
+    .filter((f): f is NonNullable<typeof f> => f !== null);
 
   // Create output GeoJSON
   const outputData = {

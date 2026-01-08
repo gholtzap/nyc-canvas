@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
+import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(
@@ -7,9 +7,9 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const currentUser = await getCurrentUser();
+    const session = await auth();
 
-    if (!currentUser) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -23,7 +23,7 @@ export async function GET(
       include: {
         userNeighborhoods: {
           where: {
-            userId: currentUser.userId,
+            userId: session.user.id,
           },
           include: {
             photos: {
@@ -64,9 +64,9 @@ export async function PATCH(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const currentUser = await getCurrentUser();
+    const session = await auth();
 
-    if (!currentUser) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -91,7 +91,7 @@ export async function PATCH(
     const userNeighborhood = await prisma.userNeighborhood.upsert({
       where: {
         userId_neighborhoodId: {
-          userId: currentUser.userId,
+          userId: session.user.id,
           neighborhoodId: neighborhood.id,
         },
       },
@@ -103,7 +103,7 @@ export async function PATCH(
         ...(notes !== undefined && { notes }),
       },
       create: {
-        userId: currentUser.userId,
+        userId: session.user.id,
         neighborhoodId: neighborhood.id,
         explored: explored ?? false,
         exploredAt: explored ? new Date() : null,

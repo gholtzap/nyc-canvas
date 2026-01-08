@@ -1,19 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const { user, loading } = useAuth();
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const loading = status === 'loading';
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && session) {
       router.push('/neighborhoods');
     }
-  }, [user, loading, router]);
+  }, [session, loading, router]);
 
   if (loading) {
     return (

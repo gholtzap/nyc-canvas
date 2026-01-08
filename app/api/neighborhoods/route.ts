@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
+import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(request: Request) {
   try {
-    const currentUser = await getCurrentUser();
+    const session = await auth();
 
-    if (!currentUser) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       include: {
         userNeighborhoods: {
           where: {
-            userId: currentUser.userId,
+            userId: session.user.id,
           },
           select: {
             id: true,

@@ -1,12 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
-  const { user, logout } = useAuth();
+  const { data: session } = useSession();
+  const user = session?.user;
   const pathname = usePathname();
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/login' });
+  };
 
   const isActive = (path: string) => pathname === path;
 
@@ -48,14 +53,14 @@ export default function Navbar() {
                 <div className="hidden sm:flex items-center gap-3 ml-3 pl-4 border-l border-slate-700">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-gradient-to-br from-lime-400 to-orange-400 flex items-center justify-center text-slate-900 text-sm font-bold clip-path-corner">
-                      {(user.name || user.email).charAt(0).toUpperCase()}
+                      {(user.name || user.email || '').charAt(0).toUpperCase()}
                     </div>
                     <span className="text-xs text-slate-300 font-mono max-w-[120px] truncate">
-                      {user.name || user.email.split('@')[0]}
+                      {user.name || user.email?.split('@')[0]}
                     </span>
                   </div>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="text-xs text-slate-400 hover:text-orange-400 font-bold uppercase tracking-wide transition-colors"
                   >
                     Logout
@@ -63,7 +68,7 @@ export default function Navbar() {
                 </div>
 
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="sm:hidden px-3 py-2 text-xs text-slate-400 hover:text-orange-400 font-bold uppercase tracking-wide transition-colors"
                 >
                   Logout

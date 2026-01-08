@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -28,7 +28,8 @@ interface Stats {
 }
 
 export default function NeighborhoodsPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { data: session, status } = useSession();
+  const authLoading = status === 'loading';
   const router = useRouter();
   const [neighborhoods, setNeighborhoods] = useState<Neighborhood[]>([]);
   const [stats, setStats] = useState<Stats>({ total: 0, explored: 0, unexplored: 0 });
@@ -37,16 +38,16 @@ export default function NeighborhoodsPage() {
   const [exploredFilter, setExploredFilter] = useState('');
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (!authLoading && !session) {
       router.push('/login');
     }
-  }, [user, authLoading, router]);
+  }, [session, authLoading, router]);
 
   useEffect(() => {
-    if (user) {
+    if (session) {
       fetchNeighborhoods();
     }
-  }, [user, boroughFilter, exploredFilter]);
+  }, [session, boroughFilter, exploredFilter]);
 
   const fetchNeighborhoods = async () => {
     setLoading(true);
@@ -216,9 +217,9 @@ export default function NeighborhoodsPage() {
                     </p>
                   )}
 
-                  {neighborhood.userNeighborhood?.photos?.length > 0 && (
+                  {(neighborhood.userNeighborhood?.photos?.length ?? 0) > 0 && (
                     <p className="text-xs text-slate-500 font-mono">
-                      &gt; {neighborhood.userNeighborhood.photos.length} photo{neighborhood.userNeighborhood.photos.length !== 1 ? 's' : ''}
+                      &gt; {neighborhood.userNeighborhood?.photos?.length} photo{(neighborhood.userNeighborhood?.photos?.length ?? 0) !== 1 ? 's' : ''}
                     </p>
                   )}
                 </div>

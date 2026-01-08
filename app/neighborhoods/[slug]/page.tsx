@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -30,7 +30,8 @@ interface Neighborhood {
 }
 
 export default function NeighborhoodDetailPage() {
-  const { user, loading: authLoading } = useAuth();
+  const { data: session, status } = useSession();
+  const authLoading = status === 'loading';
   const router = useRouter();
   const params = useParams();
   const slug = params?.slug as string;
@@ -42,16 +43,16 @@ export default function NeighborhoodDetailPage() {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (!authLoading && !session) {
       router.push('/login');
     }
-  }, [user, authLoading, router]);
+  }, [session, authLoading, router]);
 
   useEffect(() => {
-    if (user && slug) {
+    if (session && slug) {
       fetchNeighborhood();
     }
-  }, [user, slug]);
+  }, [session, slug]);
 
   const fetchNeighborhood = async () => {
     setLoading(true);
