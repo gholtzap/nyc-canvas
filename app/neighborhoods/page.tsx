@@ -88,10 +88,10 @@ export default function NeighborhoodsPage() {
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="flex items-center gap-3">
-          <div className="w-4 h-4 bg-lime-400 animate-pulse" style={{clipPath: 'polygon(2px 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%, 0 2px)', animationDelay: '0s'}}></div>
-          <div className="w-4 h-4 bg-orange-400 animate-pulse" style={{clipPath: 'polygon(2px 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%, 0 2px)', animationDelay: '0.2s'}}></div>
-          <div className="w-4 h-4 bg-lime-400 animate-pulse" style={{clipPath: 'polygon(2px 0, 100% 0, 100% calc(100% - 2px), calc(100% - 2px) 100%, 0 100%, 0 2px)', animationDelay: '0.4s'}}></div>
+        <div className="flex items-center gap-2">
+          <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{background: 'var(--terracotta-500)', animationDelay: '0s'}}></div>
+          <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{background: 'var(--amber-500)', animationDelay: '0.2s'}}></div>
+          <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{background: 'var(--sage-500)', animationDelay: '0.4s'}}></div>
         </div>
       </div>
     );
@@ -103,48 +103,48 @@ export default function NeighborhoodsPage() {
     <div className="min-h-screen relative">
       <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10">
         <div className="mb-10 animate-slide-up">
-          <h1 className="text-4xl sm:text-6xl font-display mb-3 text-lime-400 tracking-tight drop-shadow-[0_0_20px_rgba(203,245,66,0.3)]">
-            NYC NEIGHBORHOODS
+          <h1 className="text-4xl sm:text-6xl font-display mb-3 tracking-tight" style={{color: 'var(--charcoal)'}}>
+            NYC Neighborhoods
           </h1>
-          <p className="text-slate-400 text-base font-mono">{`// Discover and track your journey through the city`}</p>
+          <p className="text-base" style={{color: 'var(--gray-600)'}}>Discover and track your journey through the city</p>
         </div>
 
-        <div className="card p-6 sm:p-8 mb-8 bg-slate-800/70 border-lime-400/30 animate-slide-up" style={{animationDelay: '0.1s'}}>
-          <h2 className="text-xl font-display mb-6 text-lime-400 tracking-wide">YOUR PROGRESS</h2>
+        <div className="card p-6 sm:p-8 mb-8 animate-slide-up" style={{animationDelay: '0.1s'}}>
+          <h2 className="text-xl font-display mb-6 tracking-tight" style={{color: 'var(--charcoal)'}}>Your Progress</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="bg-slate-900/50 border-2 border-slate-700 p-5" style={{clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)'}}>
+            <div className="p-5 rounded-xl" style={{background: 'var(--cream-100)', border: '1.5px solid var(--cream-200)'}}>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-display text-lime-400 drop-shadow-[0_0_10px_rgba(203,245,66,0.5)]">
+                <span className="text-5xl font-display" style={{color: 'var(--terracotta-500)'}}>
                   {stats.explored}
                 </span>
-                <span className="text-2xl text-slate-600 font-bold">/ {stats.total}</span>
+                <span className="text-2xl font-semibold" style={{color: 'var(--gray-400)'}}>/ {stats.total}</span>
               </div>
-              <p className="text-xs text-slate-400 font-mono uppercase tracking-wide">Neighborhoods Explored</p>
+              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-600)'}}>Neighborhoods Explored</p>
             </div>
 
-            <div className="bg-slate-900/50 border-2 border-slate-700 p-5" style={{clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)'}}>
+            <div className="p-5 rounded-xl" style={{background: 'var(--cream-100)', border: '1.5px solid var(--cream-200)'}}>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-display text-orange-400 drop-shadow-[0_0_10px_rgba(255,107,53,0.5)]">
+                <span className="text-5xl font-display" style={{color: 'var(--sage-600)'}}>
                   {stats.total > 0 ? Math.round((stats.explored / stats.total) * 100) : 0}%
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono uppercase tracking-wide">Complete</p>
+              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-600)'}}>Complete</p>
             </div>
 
-            <div className="bg-slate-900/50 border-2 border-slate-700 p-5" style={{clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)'}}>
+            <div className="p-5 rounded-xl" style={{background: 'var(--cream-100)', border: '1.5px solid var(--cream-200)'}}>
               <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-display text-slate-300">
+                <span className="text-5xl font-display" style={{color: 'var(--amber-600)'}}>
                   {stats.unexplored}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-mono uppercase tracking-wide">Left to Explore</p>
+              <p className="text-xs font-medium tracking-wide" style={{color: 'var(--gray-600)'}}>Left to Explore</p>
             </div>
           </div>
         </div>
 
         <div className="flex gap-4 mb-8 flex-wrap animate-slide-up" style={{animationDelay: '0.2s'}}>
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-xs font-bold text-lime-400 mb-2 uppercase tracking-wide">Borough</label>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>Borough</label>
             <select
               value={boroughFilter}
               onChange={(e) => setBoroughFilter(e.target.value)}
@@ -160,7 +160,7 @@ export default function NeighborhoodsPage() {
           </div>
 
           <div className="flex-1 min-w-[200px]">
-            <label className="block text-xs font-bold text-lime-400 mb-2 uppercase tracking-wide">Status</label>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--charcoal)'}}>Status</label>
             <select
               value={exploredFilter}
               onChange={(e) => setExploredFilter(e.target.value)}
@@ -180,25 +180,28 @@ export default function NeighborhoodsPage() {
             return (
               <div
                 key={neighborhood.id}
-                className={`card p-6 transition-all duration-300 group animate-slide-in-stagger ${
-                  isExplored
-                    ? 'bg-lime-900/20 border-lime-400/40'
-                    : 'bg-slate-800/40'
-                }`}
-                style={{animationDelay: `${0.3 + idx * 0.03}s`}}
+                className="card p-6 transition-all duration-300 group animate-slide-in-stagger"
+                style={{
+                  animationDelay: `${0.3 + idx * 0.03}s`,
+                  ...(isExplored ? {
+                    background: 'rgba(212, 121, 91, 0.05)',
+                    borderColor: 'var(--terracotta-400)'
+                  } : {})
+                }}
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
                     <Link
                       href={`/neighborhoods/${neighborhood.slug}`}
-                      className="text-base font-display text-slate-100 hover:text-lime-400 transition-colors tracking-wide"
+                      className="text-base font-display hover:opacity-70 transition-opacity tracking-tight"
+                      style={{color: 'var(--charcoal)'}}
                     >
                       {neighborhood.name}
                     </Link>
                     <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs text-slate-500 font-mono uppercase tracking-wide">{neighborhood.borough}</span>
+                      <span className="text-xs font-medium" style={{color: 'var(--gray-600)'}}>{neighborhood.borough}</span>
                       {isExplored && (
-                        <span className="inline-flex items-center px-2 py-1 text-[10px] font-bold bg-lime-400/20 text-lime-400 border border-lime-400/30 uppercase tracking-wider" style={{clipPath: 'polygon(3px 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%, 0 3px)'}}>
+                        <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-md" style={{background: 'rgba(200, 90, 63, 0.1)', color: 'var(--terracotta-600)', border: '1px solid var(--terracotta-400)'}}>
                           ✓ Explored
                         </span>
                       )}
@@ -208,8 +211,8 @@ export default function NeighborhoodsPage() {
 
                 <div className="mb-4 space-y-1">
                   {neighborhood.userNeighborhood?.exploredAt && (
-                    <p className="text-xs text-slate-500 font-mono">
-                      &gt; {new Date(neighborhood.userNeighborhood.exploredAt).toLocaleDateString('en-US', {
+                    <p className="text-xs" style={{color: 'var(--gray-400)'}}>
+                      {new Date(neighborhood.userNeighborhood.exploredAt).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric'
@@ -218,22 +221,26 @@ export default function NeighborhoodsPage() {
                   )}
 
                   {(neighborhood.userNeighborhood?.photos?.length ?? 0) > 0 && (
-                    <p className="text-xs text-slate-500 font-mono">
-                      &gt; {neighborhood.userNeighborhood?.photos?.length} photo{(neighborhood.userNeighborhood?.photos?.length ?? 0) !== 1 ? 's' : ''}
+                    <p className="text-xs" style={{color: 'var(--gray-400)'}}>
+                      {neighborhood.userNeighborhood?.photos?.length} photo{(neighborhood.userNeighborhood?.photos?.length ?? 0) !== 1 ? 's' : ''}
                     </p>
                   )}
                 </div>
 
                 <button
                   onClick={() => toggleExplored(neighborhood.slug, isExplored)}
-                  className={`w-full px-4 py-3 text-xs font-bold uppercase tracking-wide transition-all ${
-                    isExplored
-                      ? 'bg-lime-400/10 text-lime-400 border-2 border-lime-400/50 hover:bg-lime-400/20'
-                      : 'bg-orange-400 text-slate-900 hover:bg-orange-300 shadow-md shadow-orange-400/20'
-                  }`}
-                  style={{clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)'}}
+                  className="w-full px-4 py-2.5 text-sm font-semibold tracking-normal transition-all rounded-lg"
+                  style={isExplored ? {
+                    background: 'transparent',
+                    color: 'var(--terracotta-600)',
+                    border: '2px solid var(--terracotta-500)'
+                  } : {
+                    background: 'var(--sage-500)',
+                    color: 'white',
+                    boxShadow: '0 2px 8px rgba(82, 107, 90, 0.2)'
+                  }}
                 >
-                  {isExplored ? '⟲ Mark Unexplored' : '→ Mark Explored'}
+                  {isExplored ? 'Mark Unexplored' : 'Mark Explored'}
                 </button>
               </div>
             );
@@ -243,14 +250,14 @@ export default function NeighborhoodsPage() {
         {neighborhoods.length === 0 && (
           <div className="text-center py-16 card p-12">
             <div className="text-7xl mb-4 opacity-30">🔍</div>
-            <p className="text-slate-400 text-base font-mono mb-6">{`// No neighborhoods found with the selected filters`}</p>
+            <p className="text-base mb-6" style={{color: 'var(--gray-600)'}}>No neighborhoods found with the selected filters</p>
             <button
               onClick={() => {
                 setBoroughFilter('');
                 setExploredFilter('');
               }}
-              className="px-6 py-3 bg-orange-400 text-slate-900 font-bold text-xs uppercase tracking-wide hover:bg-orange-300 transition-all"
-              style={{clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)'}}
+              className="px-6 py-3 font-semibold text-sm rounded-lg text-white transition-all"
+              style={{background: 'var(--terracotta-500)', boxShadow: '0 2px 8px rgba(200, 90, 63, 0.2)'}}
             >
               Clear filters
             </button>

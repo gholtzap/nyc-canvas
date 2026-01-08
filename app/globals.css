@@ -1,8 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --cream-50: #FAF7F2;
+  --cream-100: #F0EBE3;
+  --cream-200: #E6DFD4;
+  --terracotta-400: #D4795B;
+  --terracotta-500: #C85A3F;
+  --terracotta-600: #B44E35;
+  --sage-400: #6B8673;
+  --sage-500: #526B5A;
+  --sage-600: #3D5145;
+  --amber-400: #E0B482;
+  --amber-500: #D4A574;
+  --amber-600: #C89866;
+  --charcoal: #2D2D2D;
+  --gray-600: #6B6B6B;
+  --gray-400: #A8A8A8;
+}
 
 @layer base {
   * {
@@ -10,31 +28,20 @@
   }
 
   body {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Work Sans', -apple-system, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%);
+    background: linear-gradient(165deg, #FAF7F2 0%, #F6F2EA 50%, #F0EBE3 100%);
     position: relative;
+    color: var(--charcoal);
   }
 
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background:
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 49px,
-        rgba(203, 245, 66, 0.03) 49px,
-        rgba(203, 245, 66, 0.03) 50px
-      ),
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 49px,
-        rgba(203, 245, 66, 0.03) 49px,
-        rgba(203, 245, 66, 0.03) 50px
-      );
+    background-image:
+      radial-gradient(circle at 25% 25%, rgba(200, 90, 63, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(82, 107, 90, 0.04) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -43,91 +50,94 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.08), transparent 40%),
-                radial-gradient(circle at 80% 20%, rgba(203, 245, 66, 0.08), transparent 40%);
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C85A3F' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
+    opacity: 0.4;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Archivo Black', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    @apply text-neutral-50;
+    font-family: 'Spectral', Georgia, serif;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--charcoal);
+  }
+
+  h1 {
+    font-weight: 800;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-lime-400 text-slate-900 px-8 py-4 font-bold tracking-wide uppercase text-sm relative overflow-hidden;
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
+    @apply px-8 py-3.5 font-semibold tracking-wide text-sm relative overflow-hidden;
+    background: var(--terracotta-500);
+    color: white;
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(200, 90, 63, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   }
 
   .btn-primary:hover {
-    @apply bg-lime-300 shadow-lg shadow-lime-400/30 scale-[1.02];
+    background: var(--terracotta-600);
+    box-shadow: 0 4px 12px rgba(200, 90, 63, 0.3), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
   }
 
-  .btn-primary:hover::before {
-    opacity: 1;
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(200, 90, 63, 0.25);
   }
 
   .btn-secondary {
-    @apply bg-transparent text-lime-400 border-2 border-lime-400 px-8 py-4 font-bold tracking-wide uppercase text-sm relative overflow-hidden;
-    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply px-8 py-3.5 font-semibold tracking-wide text-sm relative overflow-hidden;
+    background: transparent;
+    color: var(--sage-600);
+    border: 2px solid var(--sage-500);
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .btn-secondary:hover {
-    @apply bg-lime-400/10 border-lime-300 text-lime-300 scale-[1.02];
+    background: var(--sage-500);
+    color: white;
+    border-color: var(--sage-600);
+    box-shadow: 0 2px 8px rgba(82, 107, 90, 0.15);
+    transform: translateY(-1px);
   }
 
   .card {
-    @apply bg-slate-800/50 backdrop-blur-md border-2 border-slate-700/50 relative overflow-hidden;
-    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    @apply relative overflow-hidden;
+    background: white;
+    border: 1.5px solid var(--cream-200);
+    border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, rgba(203, 245, 66, 0.5), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
   }
 
   .card:hover {
-    @apply border-lime-400/30 bg-slate-800/70;
+    border-color: var(--amber-500);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.15), 0 2px 4px rgba(0, 0, 0, 0.05);
     transform: translateY(-2px);
   }
 
-  .card:hover::before {
-    opacity: 1;
+  .input-field {
+    @apply w-full px-4 py-3 text-sm;
+    background: white;
+    border: 2px solid var(--cream-200);
+    color: var(--charcoal);
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
   }
 
-  .input-field {
-    @apply w-full px-4 py-3 bg-slate-900/50 border-2 border-slate-600 text-neutral-100 placeholder:text-slate-500 font-mono text-sm;
-    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
-    outline: none;
-    transition: all 0.2s;
+  .input-field::placeholder {
+    color: var(--gray-400);
   }
 
   .input-field:focus {
-    @apply border-lime-400 bg-slate-900/70;
-    box-shadow: 0 0 0 3px rgba(203, 245, 66, 0.1);
+    border-color: var(--terracotta-500);
+    box-shadow: 0 0 0 3px rgba(200, 90, 63, 0.08);
   }
 }
 
@@ -136,39 +146,65 @@ input[type="email"],
 input[type="password"],
 textarea,
 select {
-  @apply text-neutral-100;
+  color: var(--charcoal);
 }
 
 .leaflet-container {
-  font-family: 'JetBrains Mono', monospace;
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  font-family: 'Work Sans', sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .neighborhood-tooltip {
-  @apply bg-slate-900/95 backdrop-blur-sm text-lime-400 font-bold px-3 py-2 border-2 border-lime-400/50;
-  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  background: white;
+  color: var(--terracotta-600);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--terracotta-500);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(200, 90, 63, 0.2);
 }
 
 @keyframes slideInStagger {
   from {
     opacity: 0;
-    transform: translateX(-30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(203, 245, 66, 0.3);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  50% {
-    box-shadow: 0 0 30px rgba(203, 245, 66, 0.5);
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .animate-slide-in-stagger {
-  animation: slideInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: slideInStagger 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
 }

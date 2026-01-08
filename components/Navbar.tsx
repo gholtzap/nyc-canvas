@@ -16,13 +16,13 @@ export default function Navbar() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="bg-slate-900/90 backdrop-blur-xl border-b-2 border-lime-400/20 sticky top-0 z-50 shadow-lg shadow-black/20">
+    <nav style={{background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(12px)', borderBottom: '1.5px solid var(--cream-200)'}} className="sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center gap-3 group">
-            <span className="text-2xl group-hover:scale-110 transition-transform">🗽</span>
-            <span className="text-lg font-display text-lime-400 tracking-tight group-hover:text-lime-300 transition-colors">
-              NYC EXPLORER
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="text-2xl group-hover:scale-105 transition-transform">🗽</span>
+            <span className="text-base font-display tracking-tight group-hover:opacity-70 transition-opacity" style={{color: 'var(--charcoal)'}}>
+              NYC Explorer
             </span>
           </Link>
 
@@ -31,37 +31,40 @@ export default function Navbar() {
               <>
                 <Link
                   href="/neighborhoods"
-                  className={`px-3 sm:px-4 py-2 text-xs font-bold uppercase tracking-wide transition-all ${
+                  className={`px-3 sm:px-4 py-2 text-sm font-medium tracking-normal transition-all rounded-md ${
                     isActive('/neighborhoods')
-                      ? 'bg-lime-400/20 text-lime-400 border-b-2 border-lime-400'
-                      : 'text-slate-400 hover:text-lime-400 hover:bg-slate-800'
+                      ? 'text-white'
+                      : ''
                   }`}
+                  style={isActive('/neighborhoods') ? {background: 'var(--terracotta-500)'} : {color: 'var(--gray-600)'}}
                 >
                   Neighborhoods
                 </Link>
                 <Link
                   href="/map"
-                  className={`px-3 sm:px-4 py-2 text-xs font-bold uppercase tracking-wide transition-all ${
+                  className={`px-3 sm:px-4 py-2 text-sm font-medium tracking-normal transition-all rounded-md ${
                     isActive('/map')
-                      ? 'bg-lime-400/20 text-lime-400 border-b-2 border-lime-400'
-                      : 'text-slate-400 hover:text-lime-400 hover:bg-slate-800'
+                      ? 'text-white'
+                      : ''
                   }`}
+                  style={isActive('/map') ? {background: 'var(--terracotta-500)'} : {color: 'var(--gray-600)'}}
                 >
                   Map
                 </Link>
 
-                <div className="hidden sm:flex items-center gap-3 ml-3 pl-4 border-l border-slate-700">
+                <div className="hidden sm:flex items-center gap-3 ml-3 pl-4" style={{borderLeft: '1px solid var(--cream-200)'}}>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-lime-400 to-orange-400 flex items-center justify-center text-slate-900 text-sm font-bold clip-path-corner">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-semibold" style={{background: 'linear-gradient(135deg, var(--terracotta-500), var(--amber-500))'}}>
                       {(user.name || user.email || '').charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-xs text-slate-300 font-mono max-w-[120px] truncate">
+                    <span className="text-sm max-w-[120px] truncate" style={{color: 'var(--charcoal)'}}>
                       {user.name || user.email?.split('@')[0]}
                     </span>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="text-xs text-slate-400 hover:text-orange-400 font-bold uppercase tracking-wide transition-colors"
+                    className="text-sm font-medium hover:opacity-70 transition-opacity"
+                    style={{color: 'var(--gray-600)'}}
                   >
                     Logout
                   </button>
@@ -69,7 +72,8 @@ export default function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  className="sm:hidden px-3 py-2 text-xs text-slate-400 hover:text-orange-400 font-bold uppercase tracking-wide transition-colors"
+                  className="sm:hidden px-3 py-2 text-sm font-medium hover:opacity-70 transition-opacity"
+                  style={{color: 'var(--gray-600)'}}
                 >
                   Logout
                 </button>
@@ -78,14 +82,15 @@ export default function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 hover:text-lime-400 transition-colors"
+                  className="px-4 py-2 text-sm font-medium hover:opacity-70 transition-opacity"
+                  style={{color: 'var(--gray-600)'}}
                 >
                   Sign In
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 text-xs font-bold uppercase tracking-wide bg-lime-400 text-slate-900 hover:bg-lime-300 transition-all shadow-md shadow-lime-400/20"
-                  style={{clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)'}}
+                  className="px-4 py-2 text-sm font-semibold rounded-lg text-white transition-all"
+                  style={{background: 'var(--terracotta-500)', boxShadow: '0 2px 8px rgba(200, 90, 63, 0.2)'}}
                 >
                   Get Started
                 </Link>
