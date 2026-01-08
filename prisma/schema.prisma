@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exploredNeighborhoods UserNeighborhood[]
+}
+
+model Neighborhood {
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  borough  String
+  slug     String  @unique
+
+  userNeighborhoods UserNeighborhood[]
+}
+
+model UserNeighborhood {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  neighborhoodId Int
+  explored       Boolean   @default(false)
+  exploredAt     DateTime?
+  notes          String?
+  photos         Photo[]
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  neighborhood Neighborhood @relation(fields: [neighborhoodId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, neighborhoodId])
+}
+
+model Photo {
+  id                 Int      @id @default(autoincrement())
+  filename           String
+  path               String
+  userNeighborhoodId Int
+  createdAt          DateTime @default(now())
+
+  userNeighborhood UserNeighborhood @relation(fields: [userNeighborhoodId], references: [id], onDelete: Cascade)
+}

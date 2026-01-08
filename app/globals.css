@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply antialiased;
+  }
+
+  body {
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1d29 0%, #2d3142 50%, #1a1d29 100%);
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 49px,
+        rgba(203, 245, 66, 0.03) 49px,
+        rgba(203, 245, 66, 0.03) 50px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 49px,
+        rgba(203, 245, 66, 0.03) 49px,
+        rgba(203, 245, 66, 0.03) 50px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.08), transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(203, 245, 66, 0.08), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    @apply text-neutral-50;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-lime-400 text-slate-900 px-8 py-4 font-bold tracking-wide uppercase text-sm relative overflow-hidden;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover {
+    @apply bg-lime-300 shadow-lg shadow-lime-400/30 scale-[1.02];
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-lime-400 border-2 border-lime-400 px-8 py-4 font-bold tracking-wide uppercase text-sm relative overflow-hidden;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary:hover {
+    @apply bg-lime-400/10 border-lime-300 text-lime-300 scale-[1.02];
+  }
+
+  .card {
+    @apply bg-slate-800/50 backdrop-blur-md border-2 border-slate-700/50 relative overflow-hidden;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(203, 245, 66, 0.5), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover {
+    @apply border-lime-400/30 bg-slate-800/70;
+    transform: translateY(-2px);
+  }
+
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-slate-900/50 border-2 border-slate-600 text-neutral-100 placeholder:text-slate-500 font-mono text-sm;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .input-field:focus {
+    @apply border-lime-400 bg-slate-900/70;
+    box-shadow: 0 0 0 3px rgba(203, 245, 66, 0.1);
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  @apply text-neutral-100;
+}
+
+.leaflet-container {
+  font-family: 'JetBrains Mono', monospace;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+.neighborhood-tooltip {
+  @apply bg-slate-900/95 backdrop-blur-sm text-lime-400 font-bold px-3 py-2 border-2 border-lime-400/50;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+@keyframes slideInStagger {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(203, 245, 66, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(203, 245, 66, 0.5);
+  }
+}
+
+.animate-slide-in-stagger {
+  animation: slideInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
