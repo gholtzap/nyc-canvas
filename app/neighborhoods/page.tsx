@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import NeighborhoodIcon from '@/components/NeighborhoodIcon';
 
 interface UserNeighborhood {
   id: number;
@@ -180,7 +181,7 @@ export default function NeighborhoodsPage() {
             return (
               <div
                 key={neighborhood.id}
-                className="card p-6 transition-all duration-300 group animate-slide-in-stagger"
+                className="card p-6 transition-all duration-300 group animate-slide-in-stagger relative overflow-hidden"
                 style={{
                   animationDelay: `${0.3 + idx * 0.03}s`,
                   ...(isExplored ? {
@@ -190,7 +191,10 @@ export default function NeighborhoodsPage() {
                   } : {})
                 }}
               >
-                <div className="flex justify-between items-start mb-4">
+                <div className="absolute top-3 right-3 opacity-20 group-hover:opacity-30 transition-opacity" style={{color: isExplored ? 'var(--amber-400)' : 'var(--teal-400)'}}>
+                  <NeighborhoodIcon slug={neighborhood.slug} className="w-16 h-16" />
+                </div>
+                <div className="flex justify-between items-start mb-4 relative z-10">
                   <div className="flex-1">
                     <Link
                       href={`/neighborhoods/${neighborhood.slug}`}
@@ -210,7 +214,7 @@ export default function NeighborhoodsPage() {
                   </div>
                 </div>
 
-                <div className="mb-4 space-y-1">
+                <div className="mb-4 space-y-1 relative z-10">
                   {neighborhood.userNeighborhood?.exploredAt && (
                     <p className="text-xs" style={{color: 'var(--gray-500)'}}>
                       {new Date(neighborhood.userNeighborhood.exploredAt).toLocaleDateString('en-US', {
@@ -230,7 +234,7 @@ export default function NeighborhoodsPage() {
 
                 <button
                   onClick={() => toggleExplored(neighborhood.slug, isExplored)}
-                  className="w-full px-4 py-2.5 text-sm font-semibold tracking-normal transition-all rounded-lg"
+                  className="w-full px-4 py-2.5 text-sm font-semibold tracking-normal transition-all rounded-lg relative z-10"
                   style={isExplored ? {
                     background: 'transparent',
                     color: 'var(--amber-400)',
