@@ -37,6 +37,9 @@ export default function NeighborhoodsPage() {
   const [loading, setLoading] = useState(true);
   const [boroughFilter, setBoroughFilter] = useState('');
   const [exploredFilter, setExploredFilter] = useState('');
+  const [editingNoteSlug, setEditingNoteSlug] = useState<string | null>(null);
+  const [noteText, setNoteText] = useState('');
+  const [uploadingPhoto, setUploadingPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !session) {
@@ -104,6 +107,80 @@ export default function NeighborhoodsPage() {
       console.error('Failed to toggle explored:', error);
       fetchNeighborhoods();
     }
+  };
+
+  const handlePhotoUpload = async (slug: string, file: File) => {
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      alert('Photo must be smaller than 5MB');
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file');
+      return;
+    }
+
+    setUploadingPhoto(slug);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch(`/api/neighborhoods/${slug}/photos`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        fetchNeighborhoods();
+      } else {
+        alert('Failed to upload photo');
+      }
+    } catch (error) {
+      console.error('Failed to upload photo:', error);
+      alert('Failed to upload photo');
+    } finally {
+      setUploadingPhoto(null);
+    }
+  };
+
+  const saveNote = async (slug: string) => {
+    if (noteText.length > 500) {
+      alert('Note must be 500 characters or less');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/neighborhoods/${slug}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notes: noteText }),
+      });
+
+      if (res.ok) {
+        setNeighborhoods(prev => prev.map(n => {
+          if (n.slug !== slug) return n;
+          return {
+            ...n,
+            userNeighborhood: n.userNeighborhood
+              ? { ...n.userNeighborhood, notes: noteText }
+              : { id: 0, explored: false, exploredAt: null, notes: noteText, photos: [] }
+          };
+        }));
+        setEditingNoteSlug(null);
+        setNoteText('');
+      } else {
+        alert('Failed to save note');
+      }
+    } catch (error) {
+      console.error('Failed to save note:', error);
+      alert('Failed to save note');
+    }
+  };
+
+  const openNoteEditor = (slug: string, currentNote: string | null) => {
+    setEditingNoteSlug(slug);
+    setNoteText(currentNote || '');
   };
 
   if (authLoading || loading) {
@@ -250,7 +327,105 @@ export default function NeighborhoodsPage() {
                       {neighborhood.userNeighborhood?.photos?.length} photo{(neighborhood.userNeighborhood?.photos?.length ?? 0) !== 1 ? 's' : ''}
                     </p>
                   )}
+
+                  {neighborhood.userNeighborhood?.notes && (
+                    <p className="text-xs italic line-clamp-2" style={{color: 'var(--gray-400)'}}>
+                      "{neighborhood.userNeighborhood.notes}"
+                    </p>
+                  )}
                 </div>
+
+                {editingNoteSlug === neighborhood.slug ? (
+                  <div className="mb-3 relative z-10">
+                    <textarea
+                      value={noteText}
+                      onChange={(e) => setNoteText(e.target.value)}
+                      maxLength={500}
+                      placeholder="Add a note about this neighborhood..."
+                      className="w-full px-3 py-2 text-sm rounded-lg resize-none"
+                      style={{
+                        background: 'rgba(10, 14, 26, 0.7)',
+                        border: '1.5px solid var(--midnight-600)',
+                        color: 'var(--cream-50)',
+                        minHeight: '80px'
+                      }}
+                    />
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs" style={{color: 'var(--gray-500)'}}>
+                        {noteText.length}/500
+                      </span>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setEditingNoteSlug(null);
+                            setNoteText('');
+                          }}
+                          className="px-3 py-1 text-xs font-semibold rounded-lg"
+                          style={{
+                            background: 'transparent',
+                            color: 'var(--gray-400)',
+                            border: '1px solid var(--midnight-600)'
+                          }}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={() => saveNote(neighborhood.slug)}
+                          className="px-3 py-1 text-xs font-semibold rounded-lg"
+                          style={{
+                            background: 'linear-gradient(135deg, var(--teal-500), var(--teal-600))',
+                            color: 'var(--midnight-900)'
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 mb-3 relative z-10">
+                    <label
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-all"
+                      style={{
+                        background: 'rgba(10, 14, 26, 0.5)',
+                        border: '1.5px solid var(--midnight-600)',
+                        color: 'var(--gray-300)'
+                      }}
+                    >
+                      {uploadingPhoto === neighborhood.slug ? (
+                        <>
+                          <div className="w-3 h-3 rounded-full animate-pulse" style={{background: 'var(--teal-400)'}}></div>
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          📷 Photo
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handlePhotoUpload(neighborhood.slug, file);
+                              e.target.value = '';
+                            }}
+                          />
+                        </>
+                      )}
+                    </label>
+                    <button
+                      onClick={() => openNoteEditor(neighborhood.slug, neighborhood.userNeighborhood?.notes || null)}
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg transition-all"
+                      style={{
+                        background: 'rgba(10, 14, 26, 0.5)',
+                        border: '1.5px solid var(--midnight-600)',
+                        color: 'var(--gray-300)'
+                      }}
+                    >
+                      ✏️ Note
+                    </button>
+                  </div>
+                )}
 
                 <button
                   onClick={() => toggleExplored(neighborhood.slug, isExplored)}

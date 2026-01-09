@@ -77,6 +77,13 @@ export async function PATCH(
     const body = await request.json();
     const { explored, notes } = body;
 
+    if (notes !== undefined && typeof notes === 'string' && notes.length > 500) {
+      return NextResponse.json(
+        { error: 'Notes must be 500 characters or less' },
+        { status: 400 }
+      );
+    }
+
     const neighborhood = await prisma.neighborhood.findUnique({
       where: { slug },
     });
