@@ -90,14 +90,14 @@ export default function NYCMap({
     const slug = feature.properties?.slug;
     const name = feature.properties?.ntaname || 'Unknown';
 
-    // Bind tooltip on hover
-    layer.bindTooltip(name, {
+    let hoverTimeout: NodeJS.Timeout | null = null;
+
+    const tooltip = L.tooltip({
       permanent: false,
       direction: 'center',
       className: 'neighborhood-tooltip',
-    });
+    }).setContent(name);
 
-    // Add event listeners
     layer.on({
       click: () => {
         if (slug) onNeighborhoodClick(slug);
@@ -105,11 +105,21 @@ export default function NYCMap({
       mouseover: (e: L.LeafletMouseEvent) => {
         const target = e.target as L.Path;
         target.setStyle({ fillOpacity: 0.9 });
+
+        hoverTimeout = setTimeout(() => {
+          tooltip.setLatLng(e.latlng).addTo((target as any)._map);
+        }, 300);
       },
       mouseout: (e: L.LeafletMouseEvent) => {
         const target = e.target as L.Path;
         const style = getStyle(feature);
         target.setStyle({ fillOpacity: style.fillOpacity });
+
+        if (hoverTimeout) {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = null;
+        }
+        tooltip.remove();
       },
     });
   };
