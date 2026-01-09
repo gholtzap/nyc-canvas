@@ -71,18 +71,38 @@ export default function NeighborhoodsPage() {
   }, [session, fetchNeighborhoods]);
 
   const toggleExplored = async (slug: string, currentExplored: boolean) => {
+    const newExploredStatus = !currentExplored;
+
+    setNeighborhoods(prev => prev.map(n => {
+      if (n.slug !== slug) return n;
+
+      return {
+        ...n,
+        userNeighborhood: n.userNeighborhood
+          ? { ...n.userNeighborhood, explored: newExploredStatus, exploredAt: newExploredStatus ? new Date().toISOString() : null }
+          : { id: 0, explored: newExploredStatus, exploredAt: newExploredStatus ? new Date().toISOString() : null, notes: null, photos: [] }
+      };
+    }));
+
+    setStats(prev => ({
+      total: prev.total,
+      explored: newExploredStatus ? prev.explored + 1 : prev.explored - 1,
+      unexplored: newExploredStatus ? prev.unexplored - 1 : prev.unexplored + 1,
+    }));
+
     try {
       const res = await fetch(`/api/neighborhoods/${slug}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ explored: !currentExplored }),
+        body: JSON.stringify({ explored: newExploredStatus }),
       });
 
-      if (res.ok) {
+      if (!res.ok) {
         fetchNeighborhoods();
       }
     } catch (error) {
       console.error('Failed to toggle explored:', error);
+      fetchNeighborhoods();
     }
   };
 
