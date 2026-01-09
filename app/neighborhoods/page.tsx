@@ -40,6 +40,7 @@ export default function NeighborhoodsPage() {
   const [editingNoteSlug, setEditingNoteSlug] = useState<string | null>(null);
   const [noteText, setNoteText] = useState('');
   const [uploadingPhoto, setUploadingPhoto] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   useEffect(() => {
     if (!authLoading && !session) {
@@ -122,6 +123,34 @@ export default function NeighborhoodsPage() {
     }
 
     setUploadingPhoto(slug);
+    setUploadProgress(0);
+
+    const tempPhotoUrl = URL.createObjectURL(file);
+    const tempPhoto = {
+      id: -Date.now(),
+      filename: file.name,
+      path: tempPhotoUrl,
+      createdAt: new Date().toISOString(),
+    };
+
+    setNeighborhoods(prev => prev.map(n => {
+      if (n.slug !== slug) return n;
+
+      return {
+        ...n,
+        userNeighborhood: n.userNeighborhood
+          ? { ...n.userNeighborhood, photos: [...(n.userNeighborhood.photos || []), tempPhoto] }
+          : { id: 0, explored: false, exploredAt: null, notes: null, photos: [tempPhoto] }
+      };
+    }));
+
+    const progressInterval = setInterval(() => {
+      setUploadProgress(prev => {
+        if (prev >= 90) return prev;
+        return prev + 10;
+      });
+    }, 100);
+
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -131,16 +160,63 @@ export default function NeighborhoodsPage() {
         body: formData,
       });
 
+      clearInterval(progressInterval);
+      setUploadProgress(100);
+
       if (res.ok) {
-        fetchNeighborhoods();
+        const data = await res.json();
+
+        setNeighborhoods(prev => prev.map(n => {
+          if (n.slug !== slug) return n;
+
+          return {
+            ...n,
+            userNeighborhood: n.userNeighborhood
+              ? {
+                  ...n.userNeighborhood,
+                  photos: n.userNeighborhood.photos?.map(p => p.id === tempPhoto.id ? data.photo : p) || [data.photo]
+                }
+              : { id: 0, explored: false, exploredAt: null, notes: null, photos: [data.photo] }
+          };
+        }));
+
+        URL.revokeObjectURL(tempPhotoUrl);
       } else {
+        clearInterval(progressInterval);
+        setNeighborhoods(prev => prev.map(n => {
+          if (n.slug !== slug) return n;
+
+          return {
+            ...n,
+            userNeighborhood: n.userNeighborhood
+              ? { ...n.userNeighborhood, photos: n.userNeighborhood.photos?.filter(p => p.id !== tempPhoto.id) }
+              : null
+          };
+        }));
+        URL.revokeObjectURL(tempPhotoUrl);
         alert('Failed to upload photo');
       }
     } catch (error) {
+      clearInterval(progressInterval);
       console.error('Failed to upload photo:', error);
+
+      setNeighborhoods(prev => prev.map(n => {
+        if (n.slug !== slug) return n;
+
+        return {
+          ...n,
+          userNeighborhood: n.userNeighborhood
+            ? { ...n.userNeighborhood, photos: n.userNeighborhood.photos?.filter(p => p.id !== tempPhoto.id) }
+            : null
+        };
+      }));
+      URL.revokeObjectURL(tempPhotoUrl);
       alert('Failed to upload photo');
     } finally {
-      setUploadingPhoto(null);
+      setTimeout(() => {
+        setUploadingPhoto(null);
+        setUploadProgress(0);
+      }, 500);
     }
   };
 
@@ -384,35 +460,48 @@ export default function NeighborhoodsPage() {
                   </div>
                 ) : (
                   <div className="flex gap-2 mb-3 relative z-10">
-                    <label
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-all hover:border-teal-500"
-                      style={{
+                    {uploadingPhoto === neighborhood.slug ? (
+                      <div className="flex-1 px-3 py-2 text-xs font-semibold rounded-lg" style={{
                         background: 'rgba(10, 14, 26, 0.5)',
                         border: '1.5px solid var(--midnight-600)',
-                        color: 'var(--gray-300)'
-                      }}
-                    >
-                      {uploadingPhoto === neighborhood.slug ? (
-                        <>
-                          <div className="w-3 h-3 rounded-full animate-pulse" style={{background: 'var(--teal-400)'}}></div>
-                          Uploading...
-                        </>
-                      ) : (
-                        <>
-                          📷 Photo
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) handlePhotoUpload(neighborhood.slug, file);
-                              e.target.value = '';
+                      }}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span style={{color: 'var(--teal-400)'}}>Uploading...</span>
+                          <span style={{color: 'var(--gray-400)'}}>{uploadProgress}%</span>
+                        </div>
+                        <div className="w-full h-1.5 rounded-full overflow-hidden" style={{background: 'rgba(30, 41, 59, 0.5)'}}>
+                          <div
+                            className="h-full transition-all duration-300"
+                            style={{
+                              width: `${uploadProgress}%`,
+                              background: 'linear-gradient(90deg, var(--teal-500), var(--teal-400))',
+                              boxShadow: '0 0 10px rgba(45, 212, 191, 0.5)'
                             }}
                           />
-                        </>
-                      )}
-                    </label>
+                        </div>
+                      </div>
+                    ) : (
+                      <label
+                        className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-all hover:border-teal-500"
+                        style={{
+                          background: 'rgba(10, 14, 26, 0.5)',
+                          border: '1.5px solid var(--midnight-600)',
+                          color: 'var(--gray-300)'
+                        }}
+                      >
+                        📷 Photo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handlePhotoUpload(neighborhood.slug, file);
+                            e.target.value = '';
+                          }}
+                        />
+                      </label>
+                    )}
                     <button
                       onClick={() => openNoteEditor(neighborhood.slug, neighborhood.userNeighborhood?.notes || null)}
                       className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg transition-all hover:border-teal-500"
