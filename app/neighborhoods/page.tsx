@@ -406,7 +406,7 @@ export default function NeighborhoodsPage() {
 
                   {neighborhood.userNeighborhood?.notes && (
                     <p className="text-xs italic line-clamp-2" style={{color: 'var(--gray-400)'}}>
-                      "{neighborhood.userNeighborhood.notes}"
+                      &quot;{neighborhood.userNeighborhood.notes}&quot;
                     </p>
                   )}
                 </div>
