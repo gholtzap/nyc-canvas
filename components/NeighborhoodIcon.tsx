@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { neighborhoodToGeoJSONSlug } from '@/lib/neighborhoodMapping';
 
 interface NeighborhoodIconProps {
   slug: string;
@@ -84,7 +85,8 @@ export default function NeighborhoodIcon({ slug, className = '' }: NeighborhoodI
           cachedGeoJSON = await response.json();
         }
 
-        const feature = cachedGeoJSON?.features.find(f => f.properties.slug === slug);
+        const geoJSONSlug = neighborhoodToGeoJSONSlug[slug] || slug;
+        const feature = cachedGeoJSON?.features.find(f => f.properties.slug === geoJSONSlug);
 
         if (feature && feature.geometry) {
           let coords: number[][][];
