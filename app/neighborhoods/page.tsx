@@ -385,7 +385,7 @@ export default function NeighborhoodsPage() {
                 ) : (
                   <div className="flex gap-2 mb-3 relative z-10">
                     <label
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-all"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg cursor-pointer transition-all hover:border-teal-500"
                       style={{
                         background: 'rgba(10, 14, 26, 0.5)',
                         border: '1.5px solid var(--midnight-600)',
@@ -415,7 +415,7 @@ export default function NeighborhoodsPage() {
                     </label>
                     <button
                       onClick={() => openNoteEditor(neighborhood.slug, neighborhood.userNeighborhood?.notes || null)}
-                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg transition-all"
+                      className="flex-1 flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg transition-all hover:border-teal-500"
                       style={{
                         background: 'rgba(10, 14, 26, 0.5)',
                         border: '1.5px solid var(--midnight-600)',
@@ -429,7 +429,7 @@ export default function NeighborhoodsPage() {
 
                 <button
                   onClick={() => toggleExplored(neighborhood.slug, isExplored)}
-                  className="w-full px-4 py-2.5 text-sm font-semibold tracking-normal transition-all rounded-lg relative z-10"
+                  className="w-full px-4 py-2.5 text-sm font-semibold tracking-normal transition-all rounded-lg relative z-10 hover:opacity-80"
                   style={isExplored ? {
                     background: 'transparent',
                     color: 'var(--amber-400)',
