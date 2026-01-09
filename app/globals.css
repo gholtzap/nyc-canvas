@@ -182,15 +182,26 @@ select option {
 }
 
 .neighborhood-tooltip {
-  background: linear-gradient(135deg, var(--midnight-700), var(--midnight-800));
-  color: var(--amber-400);
+  background: linear-gradient(135deg, var(--midnight-700), var(--midnight-800)) !important;
+  color: var(--amber-400) !important;
   font-weight: 600;
   font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
-  border: 2px solid var(--amber-500);
+  padding: 0.5rem 0.75rem !important;
+  border: 2px solid var(--amber-500) !important;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(251, 191, 36, 0.4), 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.4), 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(8px);
+  opacity: 1 !important;
+}
+
+.neighborhood-tooltip::before {
+  display: none !important;
+}
+
+.leaflet-tooltip-content {
+  color: var(--amber-400) !important;
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
 @keyframes slideInStagger {
